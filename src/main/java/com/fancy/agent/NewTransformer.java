@@ -1,6 +1,3 @@
-/*
- * Copyright (C) 2019 Baidu, Inc. All Rights Reserved.
- */
 package com.fancy.agent;
 
 import java.lang.instrument.ClassFileTransformer;
