@@ -19,13 +19,16 @@ public class Transformer implements ClassFileTransformer {
     private static final String prefix = "\nlong startTime = System.currentTimeMillis();";
     private static final String postfix = "\nlong endTime = System.currentTimeMillis();";
 
+    @Override
     public byte[] transform(ClassLoader loader, String className, Class<?> classBeingRedefined,
                             ProtectionDomain protectionDomain, byte[] classfileBuffer)
             throws IllegalClassFormatException {
-        if (!className.startsWith("com/fancy/server/App")) {
+        if (!className.startsWith("App")) {
+            System.out.println("ignore retransform app");
             return null;
         }
 
+        System.out.println("start retransform app");
         className = className.replace("/", ".");
         CtClass ctClass = null;
         try {
@@ -52,6 +55,7 @@ public class Transformer implements ClassFileTransformer {
                 newMethod.setBody(bodyStr.toString());
                 ctClass.addMethod(newMethod);
             }
+            System.out.println("retransform finish");
             return ctClass.toBytecode();
         } catch (NotFoundException e) {
             e.printStackTrace();
